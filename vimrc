@@ -1,4 +1,6 @@
+" ----------------
 " base setting
+" ----------------
 syntax enable
 syntax on
 
@@ -11,10 +13,7 @@ set number
 set relativenumber
 set showmode
 set showcmd
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
+"set expandtab
 set smarttab
 set autoindent
 set mouse=a
@@ -26,8 +25,22 @@ exec "nohlsearch"
 set ignorecase
 set smartcase
 set wildmenu
+set colorcolumn=81
+highlight ColorColumn ctermbg=cyan
 
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+autocmd FileType c set tabstop=8
+autocmd FileType c set softtabstop=8
+autocmd FileType c set shiftwidth=8
+autocmd FileType html,xml,css set tabstop=2
+autocmd FileType html,xml,css set softtabstop=2
+autocmd FileType html,xml,css set shiftwidth=2
+
+" ----------------
 " map
+" ----------------
 let mapleader = "\<space>"
 map s <nop>
 map Q :q<CR>
@@ -39,6 +52,9 @@ map sl :set splitright<CR>:vsplit<CR>
 map sh :set nosplitright<CR>:vsplit<CR>
 map sj :set splitbelow<CR>:split<CR>
 map sk :set nosplitright<CR>:split<CR>
+
+map bl :bn<CR>
+map bh :bp<CR>
 
 map <leader>h <C-w>h
 map <leader>j <C-w>j
@@ -54,14 +70,16 @@ map tn :tabe<CR>
 map th :-tabnext<CR>
 map tl :+tabnext<CR>
 
-map sv <C-w>t<C-w>H
-map sh <C-w>t<C-w>K
-
+"map sv <C-w>t<C-w>H
+"map sh <C-w>t<C-w>K
 map <leader>nt :NERDTreeToggle<CR>
+map <leader>un :UndotreeToggle<CR>
 map <F8> :Tlist<CR>
 map <F5> :call ComplieAndRun() <CR>
 
+" ----------------
 " vim plug
+" ----------------
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -74,7 +92,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdtree'
 Plug 'vim-scripts/taglist.vim'
-Plug 'vim-scripts/minibufexplorerpp'
+"Plug 'vim-scripts/minibufexplorerpp'
 
 Plug 'SirVer/ultisnips'
 Plug 'MissYourSmile/vim-snippets'
@@ -84,8 +102,18 @@ Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
 
+Plug 'mbbill/undotree'
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'preservim/nerdcommenter'
+
 call plug#end()
 
+" ----------------
+" coc
+" ----------------
 set hidden
 set nobackup
 set nowritebackup
@@ -142,7 +170,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
@@ -188,35 +216,53 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+" ----------------
 " taglist
+" ----------------
 let Tlist_Show_One_File=1       " 只展示一个文件的taglist
 let Tlist_Exit_OnlyWindow=1     " 当taglist是最后一个窗口时自动退出
 let Tlist_Use_Right_Window=1    " 在右边显示taglist窗口
 let Tlist_Sort_Type="name"      " tag按名字排序
 
+" ----------------
 " ultisnips
+" ----------------
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
+" ----------------
 " vim-latex
+" ----------------
 let g:tex_flavor='latex'
 
+" ----------------
 " vim-markdown
+" ----------------
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_toc_autofit = 1
 let g:vim_markdown_math = 1
 
+" ----------------
 " vim-markdown-preview
+" ----------------
+
+" ----------------
+" airline
+" ----------------
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = ' '
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline_theme='dark'
+let g:airline_left_sep = ''
 
 "============================
-"  自动添加文件头
+" Auto add file head
 "============================
-"新建.c,.h,.sh,.java文件，自动插入文件头 
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()" 
-""定义函数SetTitle，自动插入文件头 
+
 func SetTitle() 
-    "如果文件类型为.sh文件 
     if &filetype == 'sh' 
         call setline(1,"\#!/bin/bash") 
         call append(line("."), "") 
@@ -248,14 +294,12 @@ func SetTitle()
         call append(line(".")+1,"public class ".expand("%:r"))
         call append(line(".")+2,"")
     endif
-    "新建文件后，自动定位到文件末尾
 endfunc 
 autocmd BufNewFile * normal G
 
 "============================
-"  函数定义
+" ComplieAndRun
 "============================
-"编译
 func! ComplieAndRun()
         exec "w"
         if &filetype == 'c'
