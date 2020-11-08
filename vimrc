@@ -13,7 +13,7 @@ set number
 set relativenumber
 set showmode
 set showcmd
-"set expandtab
+set expandtab
 set smarttab
 set autoindent
 set mouse=a
@@ -25,15 +25,13 @@ exec "nohlsearch"
 set ignorecase
 set smartcase
 set wildmenu
-set colorcolumn=81
-highlight ColorColumn ctermbg=cyan
+set backspace=2
+"set colorcolumn=81
+"highlight ColorColumn ctermbg=cyan
 
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-autocmd FileType c set tabstop=8
-autocmd FileType c set softtabstop=8
-autocmd FileType c set shiftwidth=8
 autocmd FileType html,xml,css set tabstop=2
 autocmd FileType html,xml,css set softtabstop=2
 autocmd FileType html,xml,css set shiftwidth=2
@@ -53,8 +51,9 @@ map sh :set nosplitright<CR>:vsplit<CR>
 map sj :set splitbelow<CR>:split<CR>
 map sk :set nosplitright<CR>:split<CR>
 
-map bl :bn<CR>
-map bh :bp<CR>
+map fl :bn<CR>
+map fh :bp<CR>
+map fd :bd<CR>
 
 map <leader>h <C-w>h
 map <leader>j <C-w>j
@@ -70,8 +69,6 @@ map tn :tabe<CR>
 map th :-tabnext<CR>
 map tl :+tabnext<CR>
 
-"map sv <C-w>t<C-w>H
-"map sh <C-w>t<C-w>K
 map <leader>nt :NERDTreeToggle<CR>
 map <leader>un :UndotreeToggle<CR>
 map <F8> :Tlist<CR>
@@ -96,37 +93,35 @@ Plug 'vim-scripts/taglist.vim'
 
 Plug 'SirVer/ultisnips'
 Plug 'MissYourSmile/vim-snippets'
+Plug 'preservim/nerdcommenter'
 
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-Plug 'iamcco/mathjax-support-for-mkdp'
-Plug 'iamcco/markdown-preview.vim'
+"Plug 'godlygeek/tabular'
+"Plug 'plasticboy/vim-markdown'
+"Plug 'iamcco/mathjax-support-for-mkdp'
+"Plug 'iamcco/markdown-preview.vim'
 
 Plug 'mbbill/undotree'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'preservim/nerdcommenter'
+
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
-" ----------------
-" coc
-" ----------------
+"""""""""""""""
+" coc.nvim
+"""""""""""""""
+let g:coc_disable_startup_warning = 1
+let g:coc_global_extensions = [
+    \ 'coc-json',
+    \ 'coc-vimlsp',
+    \ 'coc-clangd' ]
+
 set hidden
-set nobackup
-set nowritebackup
-set cmdheight=2
 set updatetime=300
 set shortmess+=c
-
-if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -139,138 +134,65 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <silent><expr> <c-space> coc#refresh()
-
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
   else
-    call CocAction('doHover')
+    execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 
-" Highlight the symbol and its references when holding the cursor.
-"autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Use CTRL-S for selections ranges.
-" Requires 'textDocument/selectionRange' support of LS, ex: coc-tsserver
-nmap <silent> <C-s> <Plug>(coc-range-select)
-xmap <silent> <C-s> <Plug>(coc-range-select)
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Add (Neo)Vim's native statusline support.
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" ----------------
 " taglist
-" ----------------
-let Tlist_Show_One_File=1       " 只展示一个文件的taglist
-let Tlist_Exit_OnlyWindow=1     " 当taglist是最后一个窗口时自动退出
-let Tlist_Use_Right_Window=1    " 在右边显示taglist窗口
-let Tlist_Sort_Type="name"      " tag按名字排序
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+let Tlist_Use_Right_Window=1
+let Tlist_Sort_Type="name"
 
-" ----------------
 " ultisnips
-" ----------------
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
-" ----------------
-" vim-latex
-" ----------------
-let g:tex_flavor='latex'
-
-" ----------------
-" vim-markdown
-" ----------------
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_toc_autofit = 1
-let g:vim_markdown_math = 1
-
-" ----------------
-" vim-markdown-preview
-" ----------------
-
-" ----------------
 " airline
-" ----------------
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = ' '
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = ' '
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline_theme='dark'
-let g:airline_left_sep = ''
+let g:airline_powerline_fonts = 0
+
+" LeaderF
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_ShowDevIcons = 0
 
 "============================
 " Auto add file head
 "============================
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()" 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
 
-func SetTitle() 
-    if &filetype == 'sh' 
-        call setline(1,"\#!/bin/bash") 
-        call append(line("."), "") 
+func SetTitle()
+    if &filetype == 'sh'
+        call setline(1,"\#!/bin/bash")
+        call append(line("."), "")
     elseif &filetype == 'python'
         call setline(1,"#!/usr/bin/env python3")
         call append(line("."),"# coding=utf-8")
-        call append(line(".")+1, "") 
-    else 
+        call append(line(".")+1, "")
+    else
         call setline(1, "/*")
         call append(line("."), " * ".expand("%"))
         call append(line(".")+1, " */")
@@ -294,15 +216,15 @@ func SetTitle()
         call append(line(".")+1,"public class ".expand("%:r"))
         call append(line(".")+2,"")
     endif
-endfunc 
+endfunc
 autocmd BufNewFile * normal G
 
 "============================
 " ComplieAndRun
 "============================
 func! ComplieAndRun()
-        exec "w"
-        if &filetype == 'c'
+    exec "w"
+    if &filetype == 'c'
         exec "!gcc % -o %<"
         exec "!time ./%<"
     elseif &filetype == 'cpp'
