@@ -107,6 +107,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'tpope/vim-fugitive'
+Plug 'vim-scripts/Mark--Karkat'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 
@@ -117,7 +119,8 @@ let g:coc_disable_startup_warning = 1
 let g:coc_global_extensions = [
     \ 'coc-json',
     \ 'coc-vimlsp',
-    \ 'coc-clangd' ]
+    \ 'coc-clangd',
+    \ 'coc-python']
 
 set hidden
 set updatetime=300
@@ -178,6 +181,9 @@ let g:airline_powerline_fonts = 0
 " LeaderF
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_ShowDevIcons = 0
+
+" gruvbox colorcolumn
+colorscheme gruvbox
 
 "============================
 " Auto add file head
