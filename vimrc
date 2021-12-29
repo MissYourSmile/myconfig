@@ -193,13 +193,14 @@ nmap <leader>0 <Plug>AirlineSelectTab0
 " LeaderF
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_ShowDevIcons = 1
-let g:Lf_DevIconsFont = "Symbols Nerd Font"
+let g:Lf_DevIconsFont = "SauceCodePro Nerd Font"
 
 " markdown
 let g:vim_markdown_folding_disabled = 1
 
 " gruvbox colorcolumn
 colorscheme gruvbox
+set background=dark
 
 "============================
 " Auto add file head
