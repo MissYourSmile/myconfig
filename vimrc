@@ -170,6 +170,7 @@ let Tlist_Sort_Type="name"
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsEditSplit="vertical"
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
