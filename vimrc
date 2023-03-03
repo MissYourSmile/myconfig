@@ -89,7 +89,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdtree'
 Plug 'vim-scripts/taglist.vim'
-"Plug 'vim-scripts/minibufexplorerpp'
+Plug 'vim-scripts/minibufexplorerpp'
 
 Plug 'SirVer/ultisnips'
 Plug 'MissYourSmile/vim-snippets'
@@ -123,17 +123,21 @@ let g:coc_global_extensions = [
     \ 'coc-clangd',
     \ 'coc-python']
 
+set encoding=utf-8
 set hidden
 set updatetime=300
-set shortmess+=c
+set signcolumn=yes
 
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-function! s:check_back_space() abort
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
@@ -146,19 +150,20 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+nnoremap <silent> K :call ShowDocumentation()<CR>
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
   else
-    execute '!' . &keywordprg . " " . expand('<cword>')
+    call feedkeys('K', 'in')
   endif
 endfunction
+
+xmap <leader>t  <Plug>(coc-format-selected)
+nmap <leader>t  <Plug>(coc-format-selected)
+
+nmap <leader>rn <Plug>(coc-rename)
 
 " taglist
 let Tlist_Show_One_File=1
@@ -232,9 +237,9 @@ func SetTitle()
         call append(line(".")+4, "")
     endif
     if expand("%:e") == 'h'
-        call append(line(".")+3, "#ifndef _".toupper(expand("%:r"))."_H")
-        call append(line(".")+4, "#define _".toupper(expand("%:r"))."_H")
-        call append(line(".")+5, "#endif")
+        call append(line(".")+3, "#ifndef __".toupper(expand("%:r"))."_H__")
+        call append(line(".")+4, "#define __".toupper(expand("%:r"))."_H__")
+        call append(line(".")+5, "#endif /*__".toupper(expand("%:r"))."_H__*/")
     endif
     if &filetype == 'java'
         call append(line(".")+1,"public class ".expand("%:r"))
