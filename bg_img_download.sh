@@ -20,3 +20,5 @@ wget https://i0.hdslb.com/bfs/article/ce09066d23a099cac33f97b3e554abbc1550564.pn
 wget https://i0.hdslb.com/bfs/article/8c5b61ecb011ed4f6a1c285f67ab44441550564.png  -O ys_ganyv2.png
 wget https://i0.hdslb.com/bfs/article/b2ae67ae28b25e75baaf94e04900840d1550564.png  -O ys_nilu2.png
 wget https://i0.hdslb.com/bfs/article/61f5174a01a5bfab19073abce72de2ef1550564.png  -O ys_qiliangliang2.png
+
+wget https://i2.hdslb.com/bfs/new_dyn/bc2d960273fde9e2c44e4a92cebae21d262400697.png -O cbwn_xiaoan.png

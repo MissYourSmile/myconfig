@@ -12,7 +12,7 @@ startup_mode = "Maximized"
 dynamic_title = false
 
 [font.normal]
-family = "SauceCodePro Nerd Font Mono"
+family = "FiraCode Nerd Font Mono"
 style = "Regular"
 
 [font]
@@ -20,6 +20,9 @@ size = 12.0
 builtin_box_drawing = false
 
 # Colors (Gruvbox dark)
+
+[colors]
+transparent_background_colors = true
 
 # Default colors
 [colors.primary]
