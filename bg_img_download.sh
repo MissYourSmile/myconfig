@@ -20,5 +20,10 @@ wget https://i0.hdslb.com/bfs/article/ce09066d23a099cac33f97b3e554abbc1550564.pn
 wget https://i0.hdslb.com/bfs/article/8c5b61ecb011ed4f6a1c285f67ab44441550564.png  -O ys_ganyv2.png
 wget https://i0.hdslb.com/bfs/article/b2ae67ae28b25e75baaf94e04900840d1550564.png  -O ys_nilu2.png
 wget https://i0.hdslb.com/bfs/article/61f5174a01a5bfab19073abce72de2ef1550564.png  -O ys_qiliangliang2.png
+wget https://i0.hdslb.com/bfs/article/c33c6ec6e7e52aa87084672c3885248e1550564.png  -O ys_maweika.png
+wget https://i0.hdslb.com/bfs/article/e73bc3fefd3d54fa31c64ff6043dedbf1550564.png  -O ys_xitelali.png
+wget https://i0.hdslb.com/bfs/article/04c7dcc19971b8426a8a504d8e31f8081550564.png  -O ys_lanyan.png
+wget https://i0.hdslb.com/bfs/article/4c0bd3575d9a23cd93cf7ec19bd27f231550564.png  -O ys_hutao2.png
+wget https://i0.hdslb.com/bfs/article/2ac2f732e8c5f3461fee5d4138f2e94e1550564.png  -O ys_xiangling.png
 
 wget https://i2.hdslb.com/bfs/new_dyn/bc2d960273fde9e2c44e4a92cebae21d262400697.png -O cbwn_xiaoan.png
