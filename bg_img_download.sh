@@ -30,5 +30,9 @@ wget https://i2.hdslb.com/bfs/new_dyn/1943596665b71b2ed98c57a09b4c3c9d1550564.pn
 wget https://i2.hdslb.com/bfs/new_dyn/0925887db68682d3a2ccd2824f47fa9e1550564.png  -O ys_nike.png
 wget https://i1.hdslb.com/bfs/new_dyn/d4ab9876e6e76e4d869f1ecf371f576f1550564.png  -O ys_muou.png
 wget https://i1.hdslb.com/bfs/new_dyn/1f322719b4744f99c9f148beca5395b61550564.png  -O ys_xitelali2.png
+wget https://i2.hdslb.com/bfs/new_dyn/01964c915acabb0ef50d6084a4e390cd1550564.png  -O ys_ying3.png
+wget https://i2.hdslb.com/bfs/new_dyn/f22629f2921410da8012a00ee3ec41221550564.png  -O ys_aodaita.png
+wget https://i2.hdslb.com/bfs/new_dyn/8b80a9fb56a3cb127d782b802b3109791550564.png  -O ys_weisina.png
+wget https://i2.hdslb.com/bfs/new_dyn/bb41c52383bc743785d777e3205f31281550564.png  -O ys_woyanisha.png
 
 wget https://i2.hdslb.com/bfs/new_dyn/bc2d960273fde9e2c44e4a92cebae21d262400697.png -O cbwn_xiaoan.png
