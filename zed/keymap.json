@@ -1,0 +1,87 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Dock || Terminal || menu || EmptyPane",
+    "bindings": {
+      "ctrl-w h": "workspace::ActivatePaneLeft",
+      "ctrl-w j": "workspace::ActivatePaneDown",
+      "ctrl-w k": "workspace::ActivatePaneUp",
+      "ctrl-w l": "workspace::ActivatePaneRight",
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-up": "workspace::IncreaseActiveDockSize",
+      "ctrl-down": "workspace::DecreaseActiveDockSize",
+      "alt-enter": "workspace::ToggleZoom",
+    },
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "alt-enter": "workspace::ToggleZoom",
+    },
+  },
+  {
+    "context": "Editor && VimControl",
+    "bindings": {
+      // Basic
+      "space h": "workspace::ActivatePaneLeft",
+      "space j": "workspace::ActivatePaneDown",
+      "space k": "workspace::ActivatePaneUp",
+      "space l": "workspace::ActivatePaneRight",
+      "s h": "pane::SplitLeft",
+      "s j": "pane::SplitDown",
+      "s k": "pane::SplitUp",
+      "s l": "pane::SplitRight",
+      "t l": "pane::ActivateNextItem",
+      "t h": "pane::ActivatePreviousItem",
+      "space 0": "pane::ActivateLastItem",
+      "space 1": ["pane::ActivateItem", 0],
+      "space 2": ["pane::ActivateItem", 1],
+      "space 3": ["pane::ActivateItem", 2],
+      "space 4": ["pane::ActivateItem", 3],
+      "space 5": ["pane::ActivateItem", 4],
+      "space 6": ["pane::ActivateItem", 5],
+      "space 7": ["pane::ActivateItem", 6],
+      "space 8": ["pane::ActivateItem", 7],
+      "space 9": ["pane::ActivateItem", 8],
+      "s": null,
+      "S": "workspace::Save",
+      "Q": "pane::CloseActiveItem",
+      "Left": "vim::ResizePaneLeft",
+      "Down": "vim::ResizePaneDown",
+      "Up": "vim::ResizePaneUp",
+      "Right": "vim::ResizePaneRight",
+      // Finder
+      "space ;": "command_palette::Toggle",
+      "space f": "file_finder::Toggle",
+      "f f": "outline::Toggle",
+      "f b": "tab_switcher::ToggleAll",
+      "f l": "buffer_search::Deploy",
+      "f s": "pane::DeploySearch",
+      // Lsp
+      "space t": "editor::Format",
+      "g d": "editor::GoToDefinition",
+      "g i": "editor::GoToImplementation",
+      "g r": "editor::FindAllReferences",
+      "K": "editor::Hover",
+    },
+  },
+  {
+    "context": "Editor && vim_mode == insert && showing_completions",
+    "bindings": {
+      "tab": "editor::ContextMenuNext",
+      "shift-tab": "editor::ContextMenuPrevious",
+      "enter": "editor::ConfirmCompletion",
+    },
+  },
+]
+
