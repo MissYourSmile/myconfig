@@ -73,6 +73,8 @@
       "g i": "editor::GoToImplementation",
       "g r": "editor::FindAllReferences",
       "K": "editor::Hover",
+      "ctrl-n": "editor::SelectLargerSyntaxNode",
+      "ctrl-p": "editor::SelectSmallerSyntaxNode",
     },
   },
   {
